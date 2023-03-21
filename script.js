@@ -113,3 +113,49 @@ function geolocalize() {
 
 let geolocalizationButton = document.querySelector(".geolocation-button");
 geolocalizationButton.addEventListener("click", geolocalize);
+
+//Date handling
+
+function showdate() {
+  let now = new Date();
+  let month = now.getMonth();
+  let year = now.getFullYear();
+  let minutes = now.getMinutes();
+  let hours = now.getHours();
+  let day = now.getDate();
+  let weekDay = now.getDay();
+
+  let months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
+  let date = `${days[weekDay]}, ${day} ${months[month]} at ${hours}:${minutes}`;
+  console.log(date);
+
+  let datePlaceholder = document.querySelector("#date");
+  datePlaceholder.innerHTML = date;
+}
+
+showdate();
