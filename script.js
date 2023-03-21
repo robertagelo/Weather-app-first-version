@@ -1,3 +1,5 @@
+//Show default weather
+
 function showDefaultWeather(response) {
   let defaultTemp = Math.round(response.data.temperature.current);
   let defaultDesc = response.data.condition.description;
@@ -28,6 +30,8 @@ function searchDefaultCity(defaultCity) {
 }
 
 searchDefaultCity("Bologna");
+
+//Search handling
 
 function showSearchedWeather(response) {
   let cityName = response.data.city;
@@ -70,3 +74,42 @@ function showCityWeather(event) {
 
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", showCityWeather);
+
+//Geolocalization button handling
+
+function showGeolocation(response) {
+  let geoName = response.data.city;
+  let geoTemp = Math.round(response.data.temperature.current);
+  let geoDesc = response.data.condition.description;
+  let geoFeelsLikeTemp = Math.round(response.data.temperature.feels_like);
+  let geoHumidity = response.data.temperature.humidity;
+  let geoWindSpeed = response.data.wind.speed;
+  let geoIconUrl = `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png `;
+
+  let name = document.querySelector("#main-city");
+  name.innerHTML = geoName;
+  let description = document.querySelector("#weather-description");
+  description.innerHTML = geoDesc;
+  let temperature = document.querySelector("#temperature");
+  temperature.innerHTML = `${geoTemp}°C`;
+  let feelsLikeTemp = document.querySelector("#feels-like");
+  feelsLikeTemp.innerHTML = `${geoFeelsLikeTemp}°C`;
+  let icon = document.querySelector("#weather-icon");
+  icon.innerHTML = `<img src="${geoIconUrl}" alt="weather icon"></img>`;
+}
+
+function getCoords(position) {
+  let latitude = position.coords.latitude;
+  let longitude = position.coords.longitude;
+  let apiKey = "96f59ob69a32facbb34b2tdb5d2e7405";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?lon=${longitude}&lat=${latitude}&key=${apiKey}`;
+
+  axios.get(apiUrl).then(showGeolocation);
+}
+
+function geolocalize() {
+  navigator.geolocation.getCurrentPosition(getCoords);
+}
+
+let geolocalizationButton = document.querySelector(".geolocation-button");
+geolocalizationButton.addEventListener("click", geolocalize);
