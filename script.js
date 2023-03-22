@@ -1,23 +1,20 @@
 //Show default weather
 
 function showDefaultWeather(response) {
-  let defaultTemp = Math.round(response.data.temperature.current);
-  let defaultDesc = response.data.condition.description;
-  let defaultFeelsLikeTemp = Math.round(response.data.temperature.feels_like);
-  let defaultHumidity = response.data.temperature.humidity;
-  let defaultWindSpeed = response.data.wind.speed;
+  let temperature = Math.round(response.data.temperature.current);
+  let feelsLikeTemp = Math.round(response.data.temperature.feels_like);
   let defaultIconUrl = `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png `;
 
-  let temperature = document.querySelector("#temperature");
-  temperature.innerHTML = `${defaultTemp}°C`;
+  let temperatureElement = document.querySelector("#temperature");
+  temperatureElement.innerHTML = temperature;
   let description = document.querySelector("#weather-description");
-  description.innerHTML = defaultDesc;
-  let feelsLikeTemp = document.querySelector("#feels-like");
-  feelsLikeTemp.innerHTML = `${defaultFeelsLikeTemp}°C`;
-  let humidity = document.querySelector("#humidity");
-  humidity.innerHTML = `${defaultHumidity}%`;
-  let windSpeed = document.querySelector("#wind-speed");
-  windSpeed.innerHTML = `${defaultWindSpeed} km/h`;
+  description.innerHTML = response.data.condition.description;
+  let feelsLikeTempElement = document.querySelector("#feels-like");
+  feelsLikeTempElement.innerHTML = `${feelsLikeTemp}°C`;
+  let humidityElement = document.querySelector("#humidity");
+  humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
+  let windSpeedElement = document.querySelector("#wind-speed");
+  windSpeedElement.innerHTML = `${response.data.wind.speed} km/h`;
   let icon = document.querySelector("#weather-icon");
   icon.innerHTML = `<img src="${defaultIconUrl}" alt="weather icon"></img>`;
 }
@@ -34,26 +31,22 @@ searchDefaultCity("Bologna");
 //Search handling
 
 function showSearchedWeather(response) {
-  let cityName = response.data.city;
-  let cityTemp = Math.round(response.data.temperature.current);
-  let cityDesc = response.data.condition.description;
-  let cityFeelsLikeTemp = Math.round(response.data.temperature.feels_like);
-  let cityHumidity = response.data.temperature.humidity;
-  let cityWindSpeed = response.data.wind.speed;
+  let temperature = Math.round(response.data.temperature.current);
+  let feelsLikeTemp = Math.round(response.data.temperature.feels_like);
   let cityIconUrl = `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png `;
 
-  let name = document.querySelector("#main-city");
-  name.innerHTML = cityName;
-  let temperature = document.querySelector("#temperature");
-  temperature.innerHTML = `${cityTemp}°C`;
+  let cityNname = document.querySelector("#main-city");
+  cityNname.innerHTML = response.data.city;
+  let temperatureElement = document.querySelector("#temperature");
+  temperatureElement.innerHTML = temperature;
   let description = document.querySelector("#weather-description");
-  description.innerHTML = cityDesc;
-  let feelsLikeTemp = document.querySelector("#feels-like");
-  feelsLikeTemp.innerHTML = `${cityFeelsLikeTemp}°C`;
+  description.innerHTML = response.data.condition.description;
+  let feelsLikeTempElement = document.querySelector("#feels-like");
+  feelsLikeTempElement.innerHTML = `${feelsLikeTemp}°C`;
   let humidity = document.querySelector("#humidity");
-  humidity.innerHTML = `${cityHumidity}%`;
+  humidity.innerHTML = `${response.data.temperature.humidity}%`;
   let windSpeed = document.querySelector("#wind-speed");
-  windSpeed.innerHTML = `${cityWindSpeed} km/h`;
+  windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
   let icon = document.querySelector("#weather-icon");
   icon.innerHTML = `<img src="${cityIconUrl}" alt="weather icon"></img>`;
 }
@@ -78,22 +71,22 @@ searchForm.addEventListener("submit", showCityWeather);
 //Geolocalization button handling
 
 function showGeolocation(response) {
-  let geoName = response.data.city;
-  let geoTemp = Math.round(response.data.temperature.current);
-  let geoDesc = response.data.condition.description;
-  let geoFeelsLikeTemp = Math.round(response.data.temperature.feels_like);
-  let geoHumidity = response.data.temperature.humidity;
-  let geoWindSpeed = response.data.wind.speed;
+  let temperature = Math.round(response.data.temperature.current);
+  let feelsLikeTemp = Math.round(response.data.temperature.feels_like);
   let geoIconUrl = `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png `;
 
   let name = document.querySelector("#main-city");
-  name.innerHTML = geoName;
+  name.innerHTML = response.data.city;
   let description = document.querySelector("#weather-description");
-  description.innerHTML = geoDesc;
-  let temperature = document.querySelector("#temperature");
-  temperature.innerHTML = `${geoTemp}°C`;
-  let feelsLikeTemp = document.querySelector("#feels-like");
-  feelsLikeTemp.innerHTML = `${geoFeelsLikeTemp}°C`;
+  description.innerHTML = response.data.condition.description;
+  let temperatureElement = document.querySelector("#temperature");
+  temperatureElement.innerHTML = temperature;
+  let feelsLikeTempElement = document.querySelector("#feels-like");
+  feelsLikeTempElement.innerHTML = `${feelsLikeTemp}°C`;
+  let humidity = document.querySelector("#humidity");
+  humidity.innerHTML = `${response.data.temperature.humidity}%`;
+  let windSpeed = document.querySelector("#wind-speed");
+  windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
   let icon = document.querySelector("#weather-icon");
   icon.innerHTML = `<img src="${geoIconUrl}" alt="weather icon"></img>`;
 }
@@ -152,10 +145,32 @@ function showdate() {
   ];
 
   let date = `${days[weekDay]}, ${day} ${months[month]} at ${hours}:${minutes}`;
-  console.log(date);
 
   let datePlaceholder = document.querySelector("#date");
   datePlaceholder.innerHTML = date;
 }
 
 showdate();
+
+//Fahrenheit conversion
+
+function fahrenheitConversion(event) {
+  event.preventDefault();
+  let temperatureElement = document.querySelector("#temperature");
+  let fahrenheitTemperature = (temperature * 9) / 5 + 32;
+  temperatureElement.innerHTML = `${Math.round(fahrenheitTemperature)}`;
+}
+
+function celsiusConversion(event) {
+  event.preventDefault();
+  let temperatureElement = document.querySelector("#temperature");
+  temperatureElement.innerHTML = temperature;
+}
+
+let temperature = null;
+
+let fButton = document.querySelector(".fahrenheit");
+fButton.addEventListener("click", fahrenheitConversion);
+
+let cButton = document.querySelector(".celsius");
+cButton.addEventListener("click", celsiusConversion);
