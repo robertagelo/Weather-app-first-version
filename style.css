@@ -132,22 +132,3 @@ ul {
   text-align: center;
   margin: 5px;
 }
-
-.celsius,
-.fahrenheit {
-  color: #fff;
-  margin: 0 0 0 4px;
-  padding: 4px 8px;
-  border-radius: 20px;
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
-  background-color: #07203e;
-  border: 0px solid transparent;
-  display: inline-block;
-  vertical-align: baseline;
-  transition: all 200ms ease-in-out;
-}
-
-.celsius:hover,
-.fahrenheit:hover {
-  background-color: #114688;
-}

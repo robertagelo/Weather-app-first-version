@@ -144,33 +144,12 @@ function showdate() {
     "Sunday",
   ];
 
-  let date = `${days[weekDay]}, ${day} ${months[month]} at ${hours}:${minutes}`;
+  let date = `${days[weekDay]}, ${day} ${months[month]} at ${hours}:${
+    (minutes < 10 ? "0" : "") + minutes
+  }`;
 
   let datePlaceholder = document.querySelector("#date");
   datePlaceholder.innerHTML = date;
 }
 
 showdate();
-
-//Fahrenheit conversion
-
-function fahrenheitConversion(event) {
-  event.preventDefault();
-  let temperatureElement = document.querySelector("#temperature");
-  let fahrenheitTemperature = (temperature * 9) / 5 + 32;
-  temperatureElement.innerHTML = `${Math.round(fahrenheitTemperature)}`;
-}
-
-function celsiusConversion(event) {
-  event.preventDefault();
-  let temperatureElement = document.querySelector("#temperature");
-  temperatureElement.innerHTML = temperature;
-}
-
-let temperature = null;
-
-let fButton = document.querySelector(".fahrenheit");
-fButton.addEventListener("click", fahrenheitConversion);
-
-let cButton = document.querySelector(".celsius");
-cButton.addEventListener("click", celsiusConversion);
